@@ -1,15 +1,12 @@
 bootloader_location = "sector 1\bootloader.asm"
+extendexProgram_location = "sector 2\extendedProgram.asm"
+output = IhsansoftOS.iso
 
-bootloader_location: iso flp bin
-
-iso: bootloader_location
-	nasm ${bootloader_location} -f bin -o bootloader.iso
-	move "bootloader.iso" "build"
-
-flp: bootloader_location
-	nasm ${bootloader_location} -f bin -o bootloader.flp
-	move "bootloader.flp" "build"
-	
-bin: bootloader_location
+program:
 	nasm ${bootloader_location} -f bin -o bootloader.bin
-	move "bootloader.bin" "build"
+	nasm ${extendexProgram_location} -f bin -o extendedProgram.bin
+	copy /b "extendedProgram.bin"+"bootloader.bin" ${output}
+	move ${output} "build"
+	del "extendedProgram.bin"
+	del "bootloader.bin"
+	echo "make finished successfully!"

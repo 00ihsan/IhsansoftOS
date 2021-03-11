@@ -1,9 +1,9 @@
 PROGRAM_SPACE equ 0x7a00
 
 ReadDisk:
+    mov ah, 0x02
     mov bx, PROGRAM_SPACE
-    call PrintString
-    mov al, 4 ;assign diskspace to memory
+    mov al, 100 ;assign diskspace to memory
     mov dl, [BOOT_DISK]
     mov ch, 0x00
     mov dh, 0x00
